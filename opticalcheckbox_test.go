@@ -5,6 +5,7 @@ import (
 	"image"
 
 	//_ "image/jpeg"
+	jpeg "image/jpeg"
 	_ "image/png"
 	"log"
 	"os"
@@ -96,6 +97,16 @@ func TestSub(t *testing.T) {
 			r, g, b, _ := c0.At(x, y).RGBA()
 			cum = cum + r + g + b
 		}
+	}
+
+	of, err := os.Create("c0.jpg")
+	if err != nil {
+		panic(err)
+	}
+	defer of.Close()
+	err = jpeg.Encode(of, c0, nil)
+	if err != nil {
+		t.Errorf("writing file %v\n", err)
 	}
 
 	avg = float64(cum) / float64((bounds.Max.X-bounds.Min.X)*(bounds.Max.Y-bounds.Min.Y))
