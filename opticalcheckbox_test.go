@@ -76,13 +76,21 @@ func TestSub(t *testing.T) {
 	for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
 		for x := bounds.Min.X; x < bounds.Max.X; x++ {
 			r, g, b, _ := c0.At(x, y).RGBA()
-			cum = cum + r + g + b
+			cum = cum + r>>11 + g>>11 + b>>11
 		}
 	}
+	of0, err := os.Create("c0.jpg")
+	if err != nil {
+		panic(err)
+	}
+	defer of0.Close()
+	err = jpeg.Encode(of0, c0, nil)
+	if err != nil {
+		t.Errorf("writing file %v\n", err)
+	}
+	avg := float64(cum) / (3 * float64((bounds.Max.X-bounds.Min.X)*(bounds.Max.Y-bounds.Min.Y)))
 
-	avg := float64(cum) / float64((bounds.Max.X-bounds.Min.X)*(bounds.Max.Y-bounds.Min.Y))
-
-	fmt.Printf("%v avg: %v\n", c0.Bounds(), avg)
+	fmt.Printf("c0 %v avg: %v\n", c0.Bounds(), avg)
 
 	r0 = image.Rect(60, 60, 90, 90)
 
@@ -95,23 +103,23 @@ func TestSub(t *testing.T) {
 	for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
 		for x := bounds.Min.X; x < bounds.Max.X; x++ {
 			r, g, b, _ := c0.At(x, y).RGBA()
-			cum = cum + r + g + b
+			cum = cum + r>>11 + g>>11 + b>>11
 		}
 	}
 
-	of, err := os.Create("c0.jpg")
+	of1, err := os.Create("c1.jpg")
 	if err != nil {
 		panic(err)
 	}
-	defer of.Close()
-	err = jpeg.Encode(of, c0, nil)
+	defer of1.Close()
+	err = jpeg.Encode(of1, c0, nil)
 	if err != nil {
 		t.Errorf("writing file %v\n", err)
 	}
 
-	avg = float64(cum) / float64((bounds.Max.X-bounds.Min.X)*(bounds.Max.Y-bounds.Min.Y))
+	avg = float64(cum) / (3 * float64((bounds.Max.X-bounds.Min.X)*(bounds.Max.Y-bounds.Min.Y)))
 
-	fmt.Printf("%v avg: %v\n", c0.Bounds(), avg)
+	fmt.Printf("c1 %v avg: %v\n", c0.Bounds(), avg)
 
 	r0 = image.Rect(10, 60, 40, 90)
 
@@ -124,15 +132,24 @@ func TestSub(t *testing.T) {
 	for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
 		for x := bounds.Min.X; x < bounds.Max.X; x++ {
 			r, g, b, _ := c0.At(x, y).RGBA()
-			cum = cum + r + g + b
+			cum = cum + r>>11 + g>>11 + b>>11
 		}
 	}
+	of2, err := os.Create("c2.jpg")
+	if err != nil {
+		panic(err)
+	}
+	defer of2.Close()
+	err = jpeg.Encode(of2, c0, nil)
+	if err != nil {
+		t.Errorf("writing file %v\n", err)
+	}
 
-	avg = float64(cum) / float64((bounds.Max.X-bounds.Min.X)*(bounds.Max.Y-bounds.Min.Y))
+	avg = float64(cum) / (3 * float64((bounds.Max.X-bounds.Min.X)*(bounds.Max.Y-bounds.Min.Y)))
 
-	fmt.Printf("%v avg: %v\n", c0.Bounds(), avg)
+	fmt.Printf("c2 %v avg: %v\n", c0.Bounds(), avg)
 
-	r0 = image.Rect(70, 20, 80, 30)
+	r0 = image.Rect(60, 10, 90, 40)
 
 	c0 = m.(SubImager).SubImage(r0)
 
@@ -143,13 +160,22 @@ func TestSub(t *testing.T) {
 	for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
 		for x := bounds.Min.X; x < bounds.Max.X; x++ {
 			r, g, b, _ := c0.At(x, y).RGBA()
-			cum = cum + r + g + b
+			cum = cum + r>>11 + g>>11 + b>>11
 		}
 	}
+	of3, err := os.Create("c3.jpg")
+	if err != nil {
+		panic(err)
+	}
+	defer of3.Close()
+	err = jpeg.Encode(of3, c0, nil)
+	if err != nil {
+		t.Errorf("writing file %v\n", err)
+	}
 
-	avg = float64(cum) / float64((bounds.Max.X-bounds.Min.X)*(bounds.Max.Y-bounds.Min.Y))
+	avg = float64(cum) / (3 * float64((bounds.Max.X-bounds.Min.X)*(bounds.Max.Y-bounds.Min.Y)))
 
-	fmt.Printf("%v avg: %v\n", c0.Bounds(), avg)
+	fmt.Printf("c3 %v avg: %v\n", c0.Bounds(), avg)
 }
 
 type SubImager interface {
