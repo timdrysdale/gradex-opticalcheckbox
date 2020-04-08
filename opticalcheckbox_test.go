@@ -62,7 +62,7 @@ func TestCheckBoxDebug(t *testing.T) {
 	}
 
 	for idx := 0; idx < len(testCheckBoxes); idx = idx + 1 {
-		actual, checkImage, avgCount := checkBoxDebug(testImage, &testCheckBoxes[idx])
+		actual, checkImage, avgCount := checkBoxDebug(testImage, testCheckBoxes[idx])
 		wanted := expectedBox[idx]
 		if actual != wanted {
 
@@ -102,7 +102,7 @@ func TestCheckBox(t *testing.T) {
 	}
 
 	for idx := 0; idx < len(testCheckBoxes); idx = idx + 1 {
-		actual := CheckBox(testImage, &testCheckBoxes[idx])
+		actual := CheckBox(testImage, testCheckBoxes[idx])
 		wanted := expectedBox[idx]
 		if actual != wanted {
 

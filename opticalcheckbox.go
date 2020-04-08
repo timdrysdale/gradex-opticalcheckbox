@@ -32,7 +32,7 @@ func CheckImageFile(inputPath string, boxes []Box) ([]bool, error) {
 	}
 
 	for idx := 0; idx < len(boxes); idx = idx + 1 {
-		result := CheckBox(wholeImage, &boxes[idx])
+		result := CheckBox(wholeImage, boxes[idx])
 		results = append(results, result)
 	}
 
@@ -44,7 +44,7 @@ type SubImager interface {
 	SubImage(r image.Rectangle) image.Image
 }
 
-func checkBoxDebug(im image.Image, box *Box) (bool, image.Image, float64) {
+func checkBoxDebug(im image.Image, box Box) (bool, image.Image, float64) {
 
 	checkImage := im.(SubImager).SubImage(box.Bounds)
 	cum := uint32(0)
@@ -68,7 +68,7 @@ func checkBoxDebug(im image.Image, box *Box) (bool, image.Image, float64) {
 	}
 }
 
-func CheckBox(im image.Image, box *Box) bool {
+func CheckBox(im image.Image, box Box) bool {
 
 	checkImage := im.(SubImager).SubImage(box.Bounds)
 	cum := uint32(0)
