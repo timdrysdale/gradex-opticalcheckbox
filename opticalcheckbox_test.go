@@ -30,27 +30,27 @@ var testCheckBoxes = []Box{
 }
 
 var expectedBox = []bool{
-	false,
 	true,
 	false,
-	false,
-	false,
-	false,
-	false,
-	false,
-	false,
-	false,
-	false,
-	false,
-	false,
+	true,
+	true,
+	true,
 	true,
 	false,
+	true,
+	true,
+	true,
+	true,
+	true,
+	true,
 	false,
+	true,
+	true,
 }
 
 func TestCheckBoxDebug(t *testing.T) {
 
-	reader, err := os.Open("test.png")
+	reader, err := os.Open("./img/test.png")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -90,7 +90,7 @@ func TestCheckBoxDebug(t *testing.T) {
 
 func TestCheckBox(t *testing.T) {
 
-	reader, err := os.Open("test.png")
+	reader, err := os.Open("./img/test.png")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -116,7 +116,7 @@ func TestCheckBox(t *testing.T) {
 
 func TestCheckImageFile(t *testing.T) {
 
-	results, err := CheckImageFile("test.png", testCheckBoxes)
+	results, err := CheckImageFile("./img/test.png", testCheckBoxes)
 
 	if err != nil {
 		t.Errorf("error %v\n", err)

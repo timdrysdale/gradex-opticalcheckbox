@@ -62,9 +62,9 @@ func checkBoxDebug(im image.Image, box Box) (bool, image.Image, float64) {
 	averagePixelValue := float64(cum / uint32(pixelCount))
 
 	if box.Vanilla {
-		return averagePixelValue > 30.0, checkImage, averagePixelValue
+		return averagePixelValue < 30.0, checkImage, averagePixelValue
 	} else {
-		return averagePixelValue < 1.0, checkImage, averagePixelValue
+		return averagePixelValue > 1.0, checkImage, averagePixelValue
 	}
 }
 
@@ -86,8 +86,8 @@ func CheckBox(im image.Image, box Box) bool {
 	averagePixelValue := float64(cum / uint32(pixelCount))
 
 	if box.Vanilla {
-		return averagePixelValue > 30.0
+		return averagePixelValue < 30.0
 	} else {
-		return averagePixelValue < 1.0
+		return averagePixelValue > 1.0
 	}
 }
