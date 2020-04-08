@@ -9,7 +9,7 @@ import (
 	"testing"
 )
 
-var testCheckBoxes = []CheckBox{
+var testCheckBoxes = []Box{
 	{Vanilla: true, Bounds: image.Rect(10, 10, 40, 40)},
 	{Vanilla: true, Bounds: image.Rect(10, 60, 40, 90)},
 	{Vanilla: true, Bounds: image.Rect(60, 10, 90, 40)},
@@ -102,7 +102,7 @@ func TestCheckBox(t *testing.T) {
 	}
 
 	for idx := 0; idx < len(testCheckBoxes); idx = idx + 1 {
-		actual := checkBox(testImage, &testCheckBoxes[idx])
+		actual := CheckBox(testImage, &testCheckBoxes[idx])
 		wanted := expectedBox[idx]
 		if actual != wanted {
 
@@ -112,4 +112,22 @@ func TestCheckBox(t *testing.T) {
 
 	}
 
+}
+
+func TestCheckImageFile(t *testing.T) {
+
+	results, err := CheckImageFile("test.png", testCheckBoxes)
+
+	if err != nil {
+		t.Errorf("error %v\n", err)
+	}
+
+	for idx, result := range results {
+
+		if result != expectedBox[idx] {
+			t.Errorf("Unexpected result for checkbox %d; got %v wanted %v\n",
+				idx, result, expectedBox[idx])
+		}
+
+	}
 }

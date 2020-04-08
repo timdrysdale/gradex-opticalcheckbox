@@ -1,15 +1,42 @@
 package opticalcheckbox
 
-import "image"
+import (
+	"image"
+	_ "image/gif"
+	_ "image/jpeg"
+	_ "image/png"
+	"os"
+)
 
-type CheckBox struct {
+type Box struct {
 	Vanilla bool
 	Bounds  image.Rectangle
 }
 
-func checkImageFile(inputPath string) ([]bool, error) {
-	return []bool{false}, nil
+func CheckImageFile(inputPath string, boxes []Box) ([]bool, error) {
 
+	var results []bool
+
+	reader, err := os.Open(inputPath)
+
+	if err != nil {
+		return []bool{}, err
+	}
+
+	defer reader.Close()
+
+	wholeImage, _, err := image.Decode(reader)
+
+	if err != nil {
+		return []bool{}, err
+	}
+
+	for idx := 0; idx < len(boxes); idx = idx + 1 {
+		result := CheckBox(wholeImage, &boxes[idx])
+		results = append(results, result)
+	}
+
+	return results, nil
 }
 
 //see https://stackoverflow.com/questions/16072910/trouble-getting-a-subimage-of-an-image-in-go
@@ -17,7 +44,7 @@ type SubImager interface {
 	SubImage(r image.Rectangle) image.Image
 }
 
-func checkBoxDebug(im image.Image, box *CheckBox) (bool, image.Image, float64) {
+func checkBoxDebug(im image.Image, box *Box) (bool, image.Image, float64) {
 
 	checkImage := im.(SubImager).SubImage(box.Bounds)
 	cum := uint32(0)
@@ -41,7 +68,7 @@ func checkBoxDebug(im image.Image, box *CheckBox) (bool, image.Image, float64) {
 	}
 }
 
-func checkBox(im image.Image, box *CheckBox) bool {
+func CheckBox(im image.Image, box *Box) bool {
 
 	checkImage := im.(SubImager).SubImage(box.Bounds)
 	cum := uint32(0)
